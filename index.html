@@ -20,16 +20,9 @@
 
             <div class="jumbotron">
                     <h1 id="title">{{col.collection.title}}</h1>
-                </div>
-                <div class="card-group">
-                    <div class="card" v-for="item in col.collection.items">
-                        <dl v-for="propiedad in item.data">
-                            <dt>{{propiedad.prompt}}</dt>
-                            <dd>{{propiedad.value}}</dd>
-                        </dl>
-                        <a type="button" class="btn btn-primary w-25" v-bind:href="item.href">Ver</a>
-                    </div>
-                </div>
+            </div>
+                
+            <item-data v-for="item in col.collection.items" :objeto="item"></item-data>
         
             <!--
                  TODO: Aplicación VueJS. Ver archivo ./js/script.js
@@ -56,9 +49,15 @@
         <!-- Plantilla para el componente item-data -->
         <script type="text/x-template" id="itemData">
 
-            <!--
-                 TODO: Componente item-data
-            -->
+            <div class="card-group">
+                <div class="card" >
+                    <dl v-for="propiedad in {{objeto}}.data">
+                        <dt>{{propiedad.prompt}}</dt>
+                        <dd>{{propiedad.value}}</dd>
+                    </dl>
+                    <a type="button" class="btn btn-primary w-25" v-bind:href="item.href">Ver</a>
+                </div>
+            </div>
 
         </script>
 
