@@ -55,15 +55,7 @@ Vue.component('edit-form', {
 
 // TODO: Componente item-data
 Vue.component('item-data', {    
-    template: '#itemData',  
-    props: ['pelicula', 'indice'],
-    methods: 
-    {
-        toggleEditFormVisibility: function(index)
-        {
-            peliculasEditar.push(index);
-        }
-    }   
+     
 })
 
 // Aplicación VueJS
