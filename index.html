@@ -7,29 +7,37 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
 
     <body>
 
-        <h1 id="autor">Autor: TU NOMBRE AQUÍ</h1>
+        <h1 id="autor">Autor: DANIEL ESPINO GOMIS</h1>
 
         <!-- https://vuejs.org/v2/guide/index.html -->
         <div id="app">
-
-            <div class="jumbotron">
-                    <h1 id="title">{{col.collection.title}}</h1>
-            </div>
-                
-            <item-data v-for="item in col.collection.items" :objeto="item"></item-data>
-        
             <!--
                  TODO: Aplicación VueJS. Ver archivo ./js/script.js
                - Mostrar el título de la colección dentro de un componente Jumbotron de Bootstrap https://getbootstrap.com/docs/4.0/components/jumbotron/. En su interior habrá un <h1> con id "title" que mostrará el título de la colección
                - Para cada item: (https://vuejs.org/v2/guide/index.html#Conditionals-and-Loops)
                  - Crear un componente item-data
             -->
+            <div class="jumbotron">
+                <h1 id="title">{{ col.collection.title }}</h1>
+            </div>
+            <div class="card-group">
+                <item-data class="card shadow text-justify" 
+                        v-for="item in col.collection.items" 
+                        v-if="!peliculasEditar.includes(col.collection.items.indexOf(item))" 
+                        :pelicula="item"
+                        :indice="col.collection.items.indexOf(item)"
+                        :key="col.collection.items.indexOf(item)">
+                </item-data>
+
+                <edit-form v-else :pelicula="item" :indice="col.collection.items.indexOf(item)"></edit-form>
+            </div>
 
         </div>
 
@@ -41,6 +49,26 @@
             <!--
                  TODO: Componente edit-form
             -->
+            <div class="card-group"> 
+                <div class="card shadow text-justify">               
+                    <div class="card-body">
+                        <dl v-for="nota in pelicula.data">
+                            <dt>
+                                {{ nota.prompt }}
+                            </dt>                            
+                            <input type="text" 
+                                v-if ="nota.prompt != 'Description'"
+                                v-bind:id="nota.name+indice"
+                                v-model="nota.value">
+                            <textarea type="text" 
+                                v-else 
+                                v-bind:id="nota.name+indice" 
+                                v-model="nota.value"></textarea>
+                        </dl>
+                        <input type="button" v-on:click="closeForm(indice)" value="Cerrar" class="btn btn-primary" style="color:#fff">
+                    </div> 
+                </div>               
+            </div>
 
         </script>
 
@@ -49,23 +77,35 @@
         <!-- Plantilla para el componente item-data -->
         <script type="text/x-template" id="itemData">
 
+            <!--
+                 TODO: Componente item-data
+            -->
             <div class="card-group">
-                <div class="card" >
-                    <dl v-for="propiedad in {{objeto}}.data">
-                        <dt>{{propiedad.prompt}}</dt>
-                        <dd>{{propiedad.value}}</dd>
-                    </dl>
-                    <a type="button" class="btn btn-primary w-25" v-bind:href="item.href">Ver</a>
+                <div class="card shadow text-justify">
+                    <div class="card-body">
+                        <dl v-for="nota in pelicula.data">
+                            <dt>
+                                {{ nota.prompt }}
+                            </dt>
+                            <dd>
+                                {{ nota.value }}
+                            </dd>
+                        </dl>
+                        <a v-bind:href="pelicula.href" class="btn btn-primary">Ver</a>
+                        <input type="button" value="Editar" v-on:click="toggleEditFormVisibility(indice)" class="btn btn-secondary" style="color:#fff">
+                    </div>                    
                 </div>
             </div>
 
         </script>
 
 
-
+        <!-- TODO: Cargar librería VueJS y archivo js/script.js -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="./js/script.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
     </body>
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="js/script.js"></script>
 
 </html>

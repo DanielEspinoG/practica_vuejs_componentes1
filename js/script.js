@@ -38,16 +38,32 @@ var server_data = {
     }
 };
 
+var peliculasEditar = [];
 
 // TODO: Componente edit-form
 Vue.component('edit-form', {
-
+    template: '#editForm',
+    props:['pelicula', 'indice'],
+    methods: 
+    {
+        closeForm: function(index)
+        {
+            peliculasEditar.splice(peliculasEditar.indexOf(index),1);                      
+        }
+    }
 })
 
 // TODO: Componente item-data
-Vue.component('item-data', {
-    template:"#itemData",
-    props:['objeto']
+Vue.component('item-data', {    
+    template: '#itemData',  
+    props: ['pelicula', 'indice'],
+    methods: 
+    {
+        toggleEditFormVisibility: function(index)
+        {
+            peliculasEditar.push(index);
+        }
+    }   
 })
 
 // Aplicación VueJS
@@ -55,7 +71,7 @@ Vue.component('item-data', {
 var app = new Vue({
     el: '#app',
     data: {
-        col: server_data
+        col: server_data,
+        peliculasEditar: this.peliculasEditar
     }
 });
-
