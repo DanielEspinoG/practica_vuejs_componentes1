@@ -41,16 +41,7 @@ var server_data = {
 var peliculasEditar = [];
 
 // TODO: Componente edit-form
-Vue.component('edit-form', {
-    template: '#editForm',
-    props:['pelicula', 'indice'],
-    methods: 
-    {
-        closeForm: function(index)
-        {
-            peliculasEditar.splice(peliculasEditar.indexOf(index),1);                      
-        }
-    }
+
 })
 
 // TODO: Componente item-data
